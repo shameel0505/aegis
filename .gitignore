@@ -1,0 +1,9 @@
+# Aegis ignores
+dist/
+build/
+__pycache__/
+*.spec
+.aegis/
+
+# Playground ignores
+playground/test-target/.aegis/
