@@ -6,4 +6,4 @@ __pycache__/
 .aegis/
 
 # Playground ignores
-playground/test-target/.aegis/
+playground/
