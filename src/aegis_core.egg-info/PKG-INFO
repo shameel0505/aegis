@@ -1,3 +1,17 @@
+Metadata-Version: 2.4
+Name: aegis-core
+Version: 1.0.0
+Summary: A Git-native, VRAM-efficient, semantic code review and architectural analysis engine.
+Author-email: Shameel <shameel@example.com>
+Project-URL: Homepage, https://github.com/shameel0505/aegis
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic
+Requires-Dist: httpx
+
 # Aegis: Autonomous Local AI Code Review Engine
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/shameel0505/aegis/release.yml?branch=master)](https://github.com/shameel0505/aegis/actions)

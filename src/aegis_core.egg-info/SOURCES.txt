@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+src/aegis/__init__.py
+src/aegis/cli.py
+src/aegis/guardrails.py
+src/aegis/llm_client.py
+src/aegis/schema.py
+src/aegis/storage.py
+src/aegis/sync.py
+src/aegis_core.egg-info/PKG-INFO
+src/aegis_core.egg-info/SOURCES.txt
+src/aegis_core.egg-info/dependency_links.txt
+src/aegis_core.egg-info/entry_points.txt
+src/aegis_core.egg-info/requires.txt
+src/aegis_core.egg-info/top_level.txt
+tests/test_guardrails.py

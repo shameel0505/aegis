@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis-core"
+version = "1.0.0"
+authors = [
+  { name="Shameel", email="shameel@example.com" },
+]
+description = "A Git-native, VRAM-efficient, semantic code review and architectural analysis engine."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pydantic",
+    "httpx",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/shameel0505/aegis"
+
+[project.scripts]
+aegis = "aegis.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["aegis*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

@@ -38,6 +38,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller tree-sitter tree-sitter-python litellm httpx
 
+      - name: Run Tests
+        run: |
+          pip install pytest
+          pytest tests/
+          
       - name: Build with PyInstaller
         run: |
           pyinstaller --onefile --name ${{ matrix.executable_name }} src/main.py
