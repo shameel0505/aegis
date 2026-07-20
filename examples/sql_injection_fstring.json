@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.1",
+  "hash_key": "e58899721aa4a8061c65e670cae45e7e2bd62120c02887227ed9f86fdbaa3c30",
+  "target": {
+    "file_path": "playground\\test-target\\app\\db\\repositories\\tags.py",
+    "symbol_name": "module",
+    "code_hash": "da134c94054ee81865b0bf8c46b36a9eef031d0294a5bf9f81ad01ad370329a5_8b8ee6d065bd017d7eab38211053fd796f03bfc21bbad6ddc37cb9e48938def8"
+  },
+  "provenance": {
+    "model_id": "qwen2.5-coder:7b",
+    "quant_level": "q4",
+    "timestamp": "2026-07-20T12:35:40Z"
+  },
+  "finding": {
+    "severity": "WARNING",
+    "category": "SECURITY",
+    "description": "SQL Injection vulnerability due to string formatting. The `tag` parameter is directly inserted into the SQL query without proper sanitization.",
+    "faulty_snippet": "await self.connection.execute(f\"INSERT INTO tags (tag) VALUES ('{tag}')\")",
+    "evidence_graph": [
+      {
+        "type": "CALLER",
+        "to": "C:\\Users\\m.shameel\\claude_code\\gemma testing\\playground\\test-target\\app\\db\\repositories\\tags.py::TagsRepository.create_tags_that_dont_exist"
+      }
+    ]
+  }
+}

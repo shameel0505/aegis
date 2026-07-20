@@ -123,7 +123,7 @@ def main():
             
         print(f"Executing semantic merge-check between '{args.target}' and '{args.branch_b}'...")
         
-        # Step 1: Detect changed files using actual git diff (Alibaba Pipeline)
+        # Step 1: Detect changed files using actual git diff (Aegis Pipeline)
         changed_in_a = get_git_diff(args.repo, args.target, args.branch_b)
         changed_in_b = get_git_diff(args.repo, args.branch_b, args.target)
         
@@ -165,8 +165,8 @@ def main():
         framework = detect_framework(args.repo)
         framework_contract = framework_semantic_contract(framework)
         
-        # Alibaba Pipeline Implementation
-        print(f"[Aegis] Initializing Alibaba Review Pipeline on {args.target}...")
+        # Aegis Pipeline Implementation
+        print(f"[Aegis] Initializing Aegis Review Pipeline on {args.target}...")
         print("[Aegis] Step 1: Building Tree-sitter Code Intelligence Graph (code-review-graph)...")
         subprocess.run(["code-review-graph", "build"], cwd=args.repo)
         
@@ -245,7 +245,7 @@ def main():
             except Exception as e:
                 print(f"  -> Skipped due to LLM error: {e}")
             
-        print("\n[Aegis] Full Repository Alibaba Pipeline Complete.")
+        print("\n[Aegis] Full Repository Aegis Pipeline Complete.")
 
 if __name__ == "__main__":
     main()

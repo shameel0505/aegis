@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.1",
+  "hash_key": "eb974a265b67308525302017ba82c2bd3010f6b8d37e97df1ee4e4aa633dc7ff",
+  "target": {
+    "file_path": "playground\\test-target\\app\\core\\settings\\app.py",
+    "symbol_name": "module",
+    "code_hash": "89aa27e814317425b47aad44bfd71b128c9a308a6e508006d2ba90183dce3c3e_2a0afa0ca50154ba7b3844c043380fca913e1659d6b0695eb19a694d4612147e"
+  },
+  "provenance": {
+    "model_id": "qwen2.5-coder:7b",
+    "quant_level": "q4",
+    "timestamp": "2026-07-20T12:23:04Z"
+  },
+  "finding": {
+    "severity": "WARNING",
+    "category": "MAINTAINABILITY",
+    "description": "The `allowed_hosts` list is set to allow all hosts. This can expose the application to cross-site request forgery (CSRF) attacks.",
+    "faulty_snippet": "allowed_hosts: List[str] = [\"*\"]",
+    "evidence_graph": [
+      {
+        "type": "CALLEE",
+        "to": "app.core.logging.InterceptHandler"
+      }
+    ]
+  }
+}

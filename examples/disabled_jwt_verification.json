@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.1",
+  "hash_key": "15544e66ec898551c9694deb5ee95047b50691a915e6133778654b4a6f26a3b3",
+  "target": {
+    "file_path": "playground\\test-target\\app\\services\\jwt.py",
+    "symbol_name": "module",
+    "code_hash": "9346c89bdb0aa69526e08b9da33448ceea46e7dc25db7063310a81b61f483ed0_bf22fa39af771ea3fcbbbc15d21eba0fc120a05a43ae2a58c2a3cedc13dd423e"
+  },
+  "provenance": {
+    "model_id": "qwen2.5-coder:7b",
+    "quant_level": "q4",
+    "timestamp": "2026-07-20T12:52:20Z"
+  },
+  "finding": {
+    "severity": "WARNING",
+    "category": "SECURITY",
+    "description": "The `verify_signature` option is set to `False`, which disables JWT signature verification. This can lead to security vulnerabilities as it allows for the creation and manipulation of tokens without proper authentication.",
+    "faulty_snippet": "jwt.decode(token, secret_key, algorithms=[ALGORITHM], options={\"verify_signature\": False})",
+    "evidence_graph": [
+      {
+        "type": "CALLER",
+        "to": "C:\\Users\\m.shameel\\claude_code\\gemma testing\\playground\\test-target\\tests\\test_services\\test_jwt.py::test_error_when_wrong_token_shape"
+      },
+      {
+        "type": "CALLER",
+        "to": "C:\\Users\\m.shameel\\claude_code\\gemma testing\\playground\\test-target\\tests\\test_services\\test_jwt.py::test_error_when_wrong_token_shape"
+      }
+    ]
+  }
+}
