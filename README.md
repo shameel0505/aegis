@@ -1,4 +1,4 @@
-# Aegis: Autonomous Local AI Code Review Engine
+# Aegis: Local AI Code Review Engine
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/shameel0505/aegis/release.yml?branch=master)](https://github.com/shameel0505/aegis/actions)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://github.com/shameel0505/aegis)
