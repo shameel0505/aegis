@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "aegis-core"
 version = "1.0.0"
 authors = [
-  { name="Shameel", email="shameel@example.com" },
+  { name="Shameel", email="shameel0505@gmail.com" },
 ]
 description = "A Git-native, VRAM-efficient, semantic code review and architectural analysis engine."
 readme = "README.md"

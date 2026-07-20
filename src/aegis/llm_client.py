@@ -127,7 +127,7 @@ Respond ONLY with a valid JSON object matching this exact schema:
             ],
             "response_format": {"type": "json_object"},
             "temperature": 0.1,
-            "keep_alive": 0
+            "keep_alive": "5m"
         }
         
         req = urllib.request.Request(

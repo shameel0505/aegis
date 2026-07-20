@@ -33,6 +33,34 @@ def read_items(db = Depends(get_db)):
     # The guardrails should deterministically filter out this hallucination
     assert len(filtered) == 0
 
+def test_ast_guardrails_filters_kwonlyargs_fastapi_injection():
+    """
+    Proves that Aegis correctly identifies kwonlyargs in modern FastAPI endpoints.
+    """
+    source_code = """
+from fastapi import Depends
+
+def get_db():
+    pass
+
+def read_items(*, db = Depends(get_db)):
+    return []
+"""
+    
+    raw_findings = [
+        FindingDetail(
+            severity="CRITICAL",
+            category="ARCHITECTURE",
+            description="The function read_items relies on Depends which might return None.",
+            faulty_snippet="db = Depends(get_db)",
+            evidence_graph=[{"type": "CALLER", "to": "test"}]
+        )
+    ]
+    
+    safe_regions = analyze_safe_regions("test.py", source_code, "fastapi")
+    filtered = filter_findings(raw_findings, source_code, safe_regions)
+    assert len(filtered) == 0
+
 def test_ast_guardrails_allows_genuine_sql_injection():
     """
     Proves that Aegis allows genuine security vulnerabilities

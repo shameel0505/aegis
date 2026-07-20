@@ -19,7 +19,7 @@ from .guardrails import (
 
 def get_git_diff(repo_path, branch_a, branch_b):
     try:
-        res = subprocess.run(["git", "diff", "--name-only", f"{branch_b}...{branch_a}"], cwd=repo_path, capture_output=True, text=True)
+        res = subprocess.run(["git", "diff", "--name-only", "--", f"{branch_b}...{branch_a}"], cwd=repo_path, capture_output=True, text=True)
         if res.returncode == 0:
             return [f for f in res.stdout.split("\n") if f.strip()]
         return []
@@ -93,6 +93,8 @@ def build_context_bundle(file_path, repo_path):
 def main():
     parser = argparse.ArgumentParser(description="Local Autonomous AI Aegis")
     parser.add_argument("--repo", default=".", help="Repository path")
+    parser.add_argument("--file", help="File to invalidate")
+    parser.add_argument("--symbol", help="Symbol to invalidate")
     parser.add_argument("command", choices=["init", "init-llm", "review", "fetch", "push", "invalidate", "merge-check"], help="Command to run")
     parser.add_argument("target", nargs="?", help="Target file/directory or branch")
     parser.add_argument("branch_b", nargs="?", help="Second branch for merge-check")
@@ -115,6 +117,41 @@ def main():
     elif args.command == "push":
         sync = GitSync(args.repo)
         sync.push_notes()
+        
+    elif args.command == "invalidate":
+        if not args.file or not args.symbol:
+            print("Error: --file and --symbol are required for invalidate.")
+            return
+            
+        print(f"[Aegis] Invalidating cache for {args.symbol} in {args.file}...")
+        objects_dir = os.path.join(args.repo, ".aegis", "objects")
+        if not os.path.exists(objects_dir):
+            print("[Aegis] No cache objects found.")
+            return
+            
+        import glob
+        import json
+        count = 0
+        for obj_file in glob.glob(os.path.join(objects_dir, "*", "*")):
+            if os.path.isfile(obj_file):
+                try:
+                    with open(obj_file, 'r', encoding='utf-8') as f:
+                        data = json.loads(f.read())
+                    
+                    sym = data.get("target", {}).get("symbol_name")
+                    if sym == args.symbol or sym == f"{args.file}::{args.symbol}":
+                        os.remove(obj_file)
+                        count += 1
+                        continue
+                        
+                    for edge in data.get("finding", {}).get("evidence_graph", []):
+                        if args.symbol in edge.get("to", ""):
+                            os.remove(obj_file)
+                            count += 1
+                            break
+                except Exception:
+                    pass
+        print(f"[Aegis] Invalidated {count} cached findings.")
         
     elif args.command == "merge-check":
         if not args.target or not args.branch_b:
@@ -195,12 +232,14 @@ def main():
             try:
                 # 1MB size limit check to prevent Memory Exhaustion / OOM
                 if os.path.getsize(file_path) > 1024 * 1024:
-                    code_content = "File too large to read (exceeds 1MB limit)."
+                    print(f"  -> Skipped {file_path}: File too large to read (exceeds 1MB limit).")
+                    continue
                 else:
                     with open(file_path, 'r', encoding='utf-8') as f:
                         code_content = f.read()
             except Exception:
-                code_content = "Unable to read file content."
+                print(f"  -> Skipped {file_path}: Unable to read file content.")
+                continue
 
             safe_regions = analyze_safe_regions(file_path, code_content, framework)
             annotated_content = annotate_code_with_safe_regions(code_content, safe_regions)

@@ -169,28 +169,42 @@ def filter_findings(
 
 def _is_depends_arg(node: ast.arg, tree: ast.AST) -> bool:
     parent_func = None
+    in_kwonly = False
     for candidate in ast.walk(tree):
         if isinstance(candidate, (ast.FunctionDef, ast.AsyncFunctionDef)):
             if node in candidate.args.args:
                 parent_func = candidate
                 break
+            if getattr(candidate.args, 'kwonlyargs', None) and node in candidate.args.kwonlyargs:
+                parent_func = candidate
+                in_kwonly = True
+                break
     if parent_func is None:
         return False
 
-    args = list(parent_func.args.args)
-    defaults = list(parent_func.args.defaults)
-    if not defaults:
-        return False
+    if in_kwonly:
+        kwonlyargs = list(parent_func.args.kwonlyargs)
+        kw_defaults = list(parent_func.args.kw_defaults)
+        arg_index = kwonlyargs.index(node)
+        default = kw_defaults[arg_index]
+        if default is None:
+            return False
+    else:
+        args = list(parent_func.args.args)
+        defaults = list(parent_func.args.defaults)
+        if not defaults:
+            return False
 
-    first_default_arg_index = len(args) - len(defaults)
-    try:
-        arg_index = args.index(node)
-    except ValueError:
-        return False
-    if arg_index < first_default_arg_index:
-        return False
+        first_default_arg_index = len(args) - len(defaults)
+        try:
+            arg_index = args.index(node)
+        except ValueError:
+            return False
+        if arg_index < first_default_arg_index:
+            return False
 
-    default = defaults[arg_index - first_default_arg_index]
+        default = defaults[arg_index - first_default_arg_index]
+
     if isinstance(default, ast.Call):
         if isinstance(default.func, ast.Name) and default.func.id == "Depends":
             return True
