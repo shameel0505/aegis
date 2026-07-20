@@ -6,10 +6,10 @@
 
 Aegis is an experimental, Git-native semantic code review and architectural analysis engine. It runs entirely on your local machine, leveraging small (3B-9B) quantization models and CodeGraph knowledge graphs to prevent cloud data leaks.
 
-## The Problem Space: Framework Blindness
-Most generic AI code reviewers suffer from **Framework Blindness** and **Context Starvation**. For example, they frequently flag false positives by complaining that a FastAPI `Depends()` returns `None`, simply because they lack the context of the framework's dependency injection lifecycle.
+## The Goal: Save API Credits for Vibe Coding
+The main goal of this project is to review entire codebases for errors using local LLMs that can run directly on a laptop. We want to do this so we can save all our expensive cloud API credits for actual "vibe coding" and generation, rather than burning them on automated codebase reviews.
 
-Aegis is an ongoing open-source experiment to solve this using a **Single-Pass Context Architecture**:
+To make this work without local models throwing massive amounts of false positives (due to missing framework context), Aegis is an ongoing open-source experiment that uses a **Single-Pass Context Architecture**:
 
 1. **Tree-Sitter Graph:** We parse the codebase into a SQLite graph DB to extract exact caller/callee signatures.
 2. **AST Guardrails:** We deterministically analyze the Abstract Syntax Tree (AST) to tag framework-managed safe zones (like Dependency Injection paths or mapped exceptions).
