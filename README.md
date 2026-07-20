@@ -12,7 +12,7 @@ Aegis solves this with a **Single-Pass Context Architecture**:
 
 1. **Tree-Sitter Graph:** It parses your codebase into a SQLite graph DB to extract exact caller/callee signatures.
 2. **AST Guardrails:** It deterministically analyzes the AST to tag framework-managed safe zones (like Dependency Injection paths or mapped exceptions).
-3. **Context Bundling:** It bundles the cross-file edges and the AST guardrails directly into the prompt, resulting in a **0% hallucination rate** even on small 7B parameter models.
+3. **Context Bundling:** It bundles the cross-file edges and the AST guardrails directly into the prompt, resulting in a **drastically reduced hallucination rate** even on small 7B parameter models.
 
 ```mermaid
 flowchart LR
